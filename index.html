@@ -163,6 +163,13 @@ input,textarea,select{font-family:inherit;font-size:16px;color:var(--ink)}
 .big-action:active{transform:scale(.98)}
 .big-action.ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--brass)}
 .big-action .ic{font-size:22px}
+.big-action.start-hero{
+  padding:32px 20px;font-size:24px;font-weight:700;letter-spacing:-.01em;
+  margin:6px 0 20px;border-radius:20px;
+  background:linear-gradient(135deg,var(--amber),var(--amber-deep));
+  box-shadow:0 6px 18px rgba(196,98,45,.32),0 2px 4px rgba(31,36,33,.1);
+}
+.big-action.start-hero:active{transform:scale(.97)}
 
 /* Workout list rows */
 .wk-row{
@@ -335,19 +342,26 @@ input,textarea,select{font-family:inherit;font-size:16px;color:var(--ink)}
 .cell.s-miss{background:var(--miss-bg);border-color:var(--miss)}
 .cell.s-greypast{background:var(--grey-bg)}
 .cell .daynum{line-height:1}
-.cell .dot{position:absolute;bottom:6px;display:flex;gap:3px}
+.cell .dot{position:absolute;bottom:4px;display:flex;gap:3px}
 .cell .dot i{width:5px;height:5px;border-radius:50%;display:block}
 .cell .dot i.w{background:var(--water)}
 .cell .dot i.s{background:var(--sleep)}
 .cell .dot i.k{background:var(--amber)}
-.cell .metric{font-size:11px;font-weight:700;margin-top:3px}
-.cell.m-water{background:var(--water-bg);border-color:var(--water)}
-.cell.m-water .metric{color:var(--water)}
-.cell.m-sleep{background:var(--sleep-bg);border-color:var(--sleep)}
-.cell.m-sleep .metric{color:var(--sleep)}
-.cal-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;font-size:12px;color:var(--ink-soft)}
-.cal-legend span{display:flex;align-items:center;gap:5px}
-.cal-legend i{width:12px;height:12px;border-radius:4px;display:block;border:1px solid rgba(0,0,0,.08)}
+.cell .metric{font-size:11px;font-weight:700;margin-top:2px;margin-bottom:7px}
+/* water view tiers: low -> partial -> full (most vibrant) */
+.cell.w-low{background:#eaf2f7;border-color:#bcd6e5}
+.cell.w-partial{background:#bcdcec;border-color:#7fb6d6}
+.cell.w-full{background:#5fa6cf;border-color:var(--water)}
+.cell.w-low .metric,.cell.w-partial .metric{color:var(--water)}
+.cell.w-full .metric,.cell.w-full .daynum{color:#fff}
+.cell.w-full .dot i{background:rgba(255,255,255,.9)}
+/* sleep view tiers */
+.cell.sl-low{background:#efecf6;border-color:#d2c9e6}
+.cell.sl-partial{background:#d6cdee;border-color:#a594d2}
+.cell.sl-full{background:#8c7cc4;border-color:var(--sleep)}
+.cell.sl-low .metric,.cell.sl-partial .metric{color:var(--sleep)}
+.cell.sl-full .metric,.cell.sl-full .daynum{color:#fff}
+.cell.sl-full .dot i{background:rgba(255,255,255,.9)}
 
 /* Day detail sheet */
 .sheet-backdrop{
@@ -392,6 +406,12 @@ input,textarea,select{font-family:inherit;font-size:16px;color:var(--ink)}
 }
 .sheet .assign-row button:active{transform:scale(.96)}
 .sheet .assign-row button.primary{background:var(--amber);color:#fff;border-color:var(--amber)}
+.sheet .start-day-btn{
+  width:100%;background:var(--amber);color:#fff;border:none;border-radius:var(--radius);
+  padding:18px;font-size:17px;font-weight:600;box-shadow:var(--shadow);
+  margin-top:10px;display:flex;align-items:center;justify-content:center;
+}
+.sheet .start-day-btn:active{transform:scale(.98)}
 .sheet-foot{padding:12px 20px 16px;border-top:1px solid var(--line);display:flex;gap:10px}
 .sheet-foot button{flex:1;padding:14px;border-radius:var(--radius-sm);font-weight:600;font-size:15px}
 .sheet-foot .save{background:var(--good);color:#fff}
@@ -475,7 +495,7 @@ const SLEEP_ADDS=[
   {nm:"Snooze",min:180},
   {nm:"Bed",min:480},
 ];
-const EXERCISES=["Custom","Bench Press","Bicep Curl","Burpees","Crunches","Cycling","Deadlift","Dumbbell Press","Elliptical","Farmer's Carry","Front Squat","Glute Bridge","Hammer Curl","Hip Thrust","Jog","Jump Rope","Jumping Jacks","Lat Pulldown","Leg Press","Lunges","Mountain Climbers","Overhead Press","Plank","Pull-Up","Push-Up","Rowing Machine","Romanian Deadlift","Run","Russian Twist","Seated Row","Shoulder Press","Sit-Up","Squat","Step-Up","Swimming","Tricep Dip","Tricep Extension","Walk","Wall Sit"];
+const EXERCISES=["Custom","Rest","Ab Wheel Rollout","Arnold Press","Back Extension","Back Squat","Barbell Curl","Barbell Row","Battle Ropes","Bear Crawl","Bench Dip","Bench Press","Bent-Over Row","Bicycle Crunch","Bird Dog","Box Jump","Box Squat","Bulgarian Split Squat","Burpee","Butterfly Stretch","Cable Crunch","Cable Curl","Cable Fly","Cable Lateral Raise","Cable Overhead Extension","Cable Pull-Through","Calf Stretch","Chest Dip","Chest Fly","Chest Stretch","Child\'s Pose","Chin-Up","Clean and Jerk","Clean and Press","Close-Grip Bench Press","Cobra Stretch","Concentration Curl","Crunch","Cycling","Dead Bug","Dead Hang","Deadlift","Decline Bench Press","Diamond Push-Up","Donkey Calf Raise","Downward Dog","Dumbbell Bench Press","Dumbbell Curl","Dumbbell Pullover","Dumbbell Row","Dumbbell Shoulder Press","Elliptical","Face Pull","Farmer\'s Carry","Figure-Four Glute Stretch","Flutter Kick","Front Raise","Front Squat","Glute Bridge","Glute Kickback","Goblet Squat","Good Morning","Groin Stretch","Hack Squat","Hammer Curl","Hamstring Stretch","Hang Clean","Hanging Leg Raise","Hiking","Hip Abduction","Hip Adduction","Hip Flexor Stretch","Hip Thrust","Hollow Hold","Incline Bench Press","Incline Dumbbell Curl","Incline Dumbbell Press","Incline Push-Up","Incline Walk","Inverted Row","Jog","Jump Rope","Jump Rope Cardio","Jump Squat","Jumping Jack","Kettlebell Swing","Landmine Press","Lat Pulldown","Lat Stretch","Lateral Raise","Leg Curl","Leg Extension","Leg Press","Leg Raise","Lower Back Stretch","Lunge","Machine Chest Press","Medicine Ball Slam","Military Press","Mountain Climber","Neck Stretch","Nordic Curl","Overhead Press","Overhead Tricep Extension","Pec Deck","Pendlay Row","Pigeon Pose","Pistol Squat","Plank","Plate Pinch","Power Clean","Preacher Curl","Pull-Up","Push Jerk","Push Press","Push-Up","Quad Stretch","Rack Pull","Rear Delt Fly","Reverse Curl","Reverse Fly","Reverse Lunge","Reverse Wrist Curl","Romanian Deadlift","Rowing Machine","Run","Russian Twist","Seated Cable Row","Seated Calf Raise","Seated Leg Curl","Seated Spinal Twist","Shoulder Stretch","Shrug","Side Plank","Single-Leg Deadlift","Sissy Squat","Sit-Up","Skull Crusher","Sled Pull","Sled Push","Snatch","Spider Curl","Sprint","Squat","Stair Climber","Standing Calf Raise","Standing Forward Fold","Stationary Bike","Step-Up","Straight-Arm Pulldown","Sumo Deadlift","Superman","Swimming","T-Bar Row","Thruster","Tire Flip","Toe Touch","Trap Bar Deadlift","Tricep Dip","Tricep Kickback","Tricep Pushdown","Triceps Stretch","Upright Row","V-Up","Walk","Walking Lunge","Wall Ball","Wall Sit","World\'s Greatest Stretch","Wrist Curl","Zottman Curl"];
 const MAX_WORKOUTS=10;
 const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -522,6 +542,7 @@ const state={
   editing:null,         // workout being edited
   sheetDate:null,
   histExercise:null,
+  pickDate:null,
 };
 
 const $=s=>document.querySelector(s);
@@ -645,6 +666,11 @@ function topbar(title,sub,onBack,rightBtn){
    ============================================================ */
 function viewHome(){
   const v=el("div","view active");
+  const bar=el("div","topbar");
+  bar.appendChild(el("div","spacer"));
+  const gear=el("button","icon-btn","\u2699\uFE0F");gear.onclick=()=>go("settings");
+  bar.appendChild(gear);
+  v.appendChild(bar);
   const brand=el("div","brandmark");
   brand.innerHTML=`<div class="logo">\u{1F3F9}</div><h1 class="serif">Questlog</h1><div class="tag">your daily fitness ledger</div>`;
   const streak=computeStreak();
@@ -671,20 +697,21 @@ function viewHome(){
   return v;
 }
 function computeStreak(){
-  let n=0;const d=new Date();
-  // today counts if any activity logged today
-  for(let i=0;i<400;i++){
-    const k=dateKey(d);
-    const rec=state.daysCache[k];
-    let active=false;
+  // A day "counts" if it has a logged workout, water, or sleep (notes do NOT count).
+  // Streak = consecutive counting days ending at today.
+  // If today has nothing logged yet, streak is 0.
+  function counts(k){
     if(k===todayKey()){
-      active=state.settings.liveWaterOz>0||state.settings.liveSleepMin>0||(rec&&(rec.notes||rec.log));
-    }else{
-      active=rec&&(rec.waterOz>0||rec.sleepMin>0||rec.notes||rec.log);
+      return state.settings.liveWaterOz>0||state.settings.liveSleepMin>0||!!(state.daysCache[k]&&state.daysCache[k].log);
     }
-    if(active)n++;
-    else if(k!==todayKey())break;        // a gap in the past ends the streak
-    else if(!active)break;               // nothing today yet -> streak is prior days
+    const rec=state.daysCache[k];
+    return !!(rec&&(rec.waterOz>0||rec.sleepMin>0||rec.log));
+  }
+  if(!counts(todayKey()))return 0;
+  let n=0;const d=new Date();
+  for(let i=0;i<2000;i++){
+    if(counts(dateKey(d)))n++;
+    else break;
     d.setDate(d.getDate()-1);
   }
   return n;
@@ -711,14 +738,14 @@ function viewWater(){
   WATER_ADDS.forEach(a=>{
     const b=el("button","add-btn");
     b.innerHTML=`<span><span class="nm">${a.nm}</span><br><span class="amt">${fmtWater(a.oz)}</span></span>`;
-    b.onclick=async()=>{state.settings.liveWaterOz+=a.oz;await saveSettings();toast("+"+fmtWater(a.oz));render();};
+    b.onclick=async()=>{state.settings.liveWaterOz+=a.oz;state._lastWater=a.oz;await saveSettings();toast("+"+fmtWater(a.oz));render();};
     grid.appendChild(b);
   });
   v.appendChild(grid);
 
   const minor=el("div","minor-row");
   const undo=el("button",null,"Undo last");
-  undo.onclick=async()=>{if(state._lastWater){state.settings.liveWaterOz=Math.max(0,state.settings.liveWaterOz-state._lastWater);}else{state.settings.liveWaterOz=Math.max(0,state.settings.liveWaterOz-8);}await saveSettings();render();};
+  undo.onclick=async()=>{const amt=state._lastWater||8;state.settings.liveWaterOz=Math.max(0,state.settings.liveWaterOz-amt);state._lastWater=0;await saveSettings();render();};
   const reset=el("button",null,"Reset day");
   reset.onclick=async()=>{if(confirm("Reset today's water to 0?")){state.settings.liveWaterOz=0;await saveSettings();render();}};
   minor.appendChild(undo);minor.appendChild(reset);
@@ -747,15 +774,17 @@ function viewSleep(){
   SLEEP_ADDS.forEach(a=>{
     const b=el("button","add-btn");
     b.innerHTML=`<span><span class="nm">${a.nm}</span><br><span class="amt">${fmtSleep(a.min)}</span></span>`;
-    b.onclick=async()=>{state.settings.liveSleepMin+=a.min;await saveSettings();toast("+"+fmtSleep(a.min));render();};
+    b.onclick=async()=>{state.settings.liveSleepMin+=a.min;state._lastSleep=a.min;await saveSettings();toast("+"+fmtSleep(a.min));render();};
     grid.appendChild(b);
   });
   v.appendChild(grid);
 
   const minor=el("div","minor-row");
+  const undo=el("button",null,"Undo last");
+  undo.onclick=async()=>{const amt=state._lastSleep||15;state.settings.liveSleepMin=Math.max(0,state.settings.liveSleepMin-amt);state._lastSleep=0;await saveSettings();render();};
   const reset=el("button",null,"Reset day");
   reset.onclick=async()=>{if(confirm("Reset today's sleep to 0?")){state.settings.liveSleepMin=0;await saveSettings();render();}};
-  minor.appendChild(reset);
+  minor.appendChild(undo);minor.appendChild(reset);
   v.appendChild(minor);
   return v;
 }
@@ -765,10 +794,9 @@ function viewSleep(){
    ============================================================ */
 function viewWorkoutHub(){
   const v=el("div","view active");
-  const gear=el("button","icon-btn","\u2699\uFE0F");gear.onclick=()=>go("settings");
-  v.appendChild(topbar("Workout","train, log, repeat",()=>go("home"),gear));
+  v.appendChild(topbar("Workout","train, log, repeat",()=>go("home")));
 
-  const start=el("button","big-action","Start workout");
+  const start=el("button","big-action start-hero","Start workout");
   start.onclick=()=>go("startPick");
   const edit=el("button","big-action ghost","Edit workouts");
   edit.onclick=()=>go("editList");
@@ -964,10 +992,12 @@ function clampInt(v,lo,hi){v=parseInt(v)||0;return Math.max(lo,Math.min(hi,v));}
    ============================================================ */
 function viewStartPick(){
   const v=el("div","view active");
-  v.appendChild(topbar("Start workout","choose your quest",()=>go("workout")));
+  const forDate=state.pickDate||todayKey();
+  const back=()=>{state.pickDate=null;go("workout");};
+  v.appendChild(topbar("Start workout",forDate===todayKey()?"choose your quest":prettyDate(forDate),back));
 
   const tbd=el("button","big-action","Freeform (TBD) workout");
-  tbd.onclick=()=>startTbd(todayKey());
+  tbd.onclick=()=>startTbd(forDate);
   v.appendChild(tbd);
 
   v.appendChild(el("div","section-label","Pick a saved workout"));
@@ -978,7 +1008,7 @@ function viewStartPick(){
       const row=el("div","wk-row");
       row.innerHTML=`<div class="info"><div class="nm">${esc(w.name)}</div><div class="meta">${w.exercises.length} exercises \u00b7 ${summarize(w)}</div></div>`;
       const acts=el("div","acts");
-      const play=el("button","mini-btn","Start");play.onclick=()=>startSession(w);
+      const play=el("button","mini-btn","Start");play.onclick=()=>startSession(w,forDate);
       acts.appendChild(play);row.appendChild(acts);
       v.appendChild(row);
     });
@@ -1066,7 +1096,7 @@ async function finishSession(){
   day.log=log;day.planId=null;day.planName=null;
   await putDay(day);
   state.settings.lastWorkoutId=a.workoutId;await saveSettings();
-  state.active=null;
+  state.active=null;state.pickDate=null;
   toast("Workout saved \u2713");
   go("calendar");
 }
@@ -1091,7 +1121,7 @@ function viewTbd(){
     const day=await getDay(a.forDate);
     day.log={type:"tbd",text:a.text.trim(),finishedAt:new Date().toISOString()};
     day.planId=null;day.planName=null;
-    await putDay(day);state.active=null;toast("Log saved \u2713");go("calendar");
+    await putDay(day);state.active=null;state.pickDate=null;toast("Log saved \u2713");go("calendar");
   };
   foot.appendChild(stop);v.appendChild(foot);
   return v;
@@ -1163,8 +1193,7 @@ async function loadAllDays(){
 function viewCalendar(){
   if(!state.calYear){const t=new Date();state.calYear=t.getFullYear();state.calMonth=t.getMonth();}
   const v=el("div","view active");
-  const gear=el("button","icon-btn","\u2699\uFE0F");gear.onclick=()=>go("settings");
-  v.appendChild(topbar("Calendar","your ledger of days",()=>go("home"),gear));
+  v.appendChild(topbar("Calendar","your ledger of days",()=>go("home")));
 
   const tabs=el("div","view-tabs");
   [["status","Status"],["water","Water"],["sleep","Sleep"]].forEach(([k,lab])=>{
@@ -1197,17 +1226,14 @@ function viewCalendar(){
     grid.appendChild(calCell(k,d));
   }
   v.appendChild(grid);
-  v.appendChild(legend());
   return v;
 }
 function dayStatus(k){
   const rec=state.daysCache[k];
   const today=todayKey();
-  const liveActive=(k===today)&&(state.settings.liveWaterOz>0||state.settings.liveSleepMin>0);
   const hasLog=rec&&rec.log;
-  const hasNotes=rec&&rec.notes&&rec.notes.trim();
   const hasPlan=rec&&rec.planId;
-  const did=hasLog||hasNotes||liveActive;
+  const did=hasLog;                    // green = a logged workout only (not notes)
   if(did)return "good";
   if(hasPlan){
     if(k<today)return "miss";   // planned, past, nothing done
@@ -1216,45 +1242,55 @@ function dayStatus(k){
   if(k<today)return "greypast";
   return "none";
 }
+// goal tier for water/sleep views: none | low | partial | full
+function goalTier(value,goal){
+  if(value<=0||goal<=0)return "none";
+  const r=value/goal;
+  if(r>=1)return "full";
+  if(r>=0.5)return "partial";
+  return "low";
+}
+function dotRow(k){
+  const rec=state.daysCache[k];
+  const water=(k===todayKey())?state.settings.liveWaterOz:(rec?rec.waterOz:0);
+  const sleep=(k===todayKey())?state.settings.liveSleepMin:(rec?rec.sleepMin:0);
+  const dot=el("div","dot");
+  if(water>0)dot.appendChild(el("i","w"));
+  if(sleep>0)dot.appendChild(el("i","s"));
+  if(rec&&rec.log)dot.appendChild(el("i","k"));
+  return dot;
+}
 function calCell(k,d){
   const cell=el("div","cell");
   const isToday=k===todayKey();
+  const isPast=k<todayKey();
   if(isToday)cell.classList.add("today");
-  if(k<todayKey())cell.classList.add("past");
+  if(isPast)cell.classList.add("past");
+  const rec=state.daysCache[k];
 
   if(state.calView==="status"){
     const st=dayStatus(k);
     if(st!=="none")cell.classList.add("s-"+st);
     cell.innerHTML=`<div class="daynum">${d}</div>`;
-    const rec=state.daysCache[k];
-    const water=(k===todayKey())?state.settings.liveWaterOz:(rec?rec.waterOz:0);
-    const sleep=(k===todayKey())?state.settings.liveSleepMin:(rec?rec.sleepMin:0);
-    const dot=el("div","dot");
-    if(water>0)dot.appendChild(el("i","w"));
-    if(sleep>0)dot.appendChild(el("i","s"));
-    if(rec&&rec.log)dot.appendChild(el("i","k"));
-    cell.appendChild(dot);
+    cell.appendChild(dotRow(k));
   }else if(state.calView==="water"){
-    const rec=state.daysCache[k];
     const water=(k===todayKey())?state.settings.liveWaterOz:(rec?rec.waterOz:0);
-    if(water>0){cell.classList.add("m-water");}
+    const tier=goalTier(water,state.settings.waterGoalOz);
+    if(isPast&&tier==="none")cell.classList.add("s-greypast");
+    if(tier!=="none")cell.classList.add("w-"+tier);
     cell.innerHTML=`<div class="daynum">${d}</div>${water>0?`<div class="metric">${fmtWaterVal(water)}</div>`:""}`;
+    cell.appendChild(dotRow(k));
   }else{
-    const rec=state.daysCache[k];
     const sleep=(k===todayKey())?state.settings.liveSleepMin:(rec?rec.sleepMin:0);
-    if(sleep>0){cell.classList.add("m-sleep");}
+    const tier=goalTier(sleep,state.settings.sleepGoalMin);
+    if(isPast&&tier==="none")cell.classList.add("s-greypast");
+    if(tier!=="none")cell.classList.add("sl-"+tier);
     cell.innerHTML=`<div class="daynum">${d}</div>${sleep>0?`<div class="metric">${fmtSleepShort(sleep)}</div>`:""}`;
+    cell.appendChild(dotRow(k));
   }
   cell.onclick=()=>openDaySheet(k);
   return cell;
 }
-function legend(){
-  const l=el("div","cal-legend");
-  const items=[["var(--good-bg)","Logged"],["var(--plan-bg)","Planned"],["var(--miss-bg)","Missed"],["var(--grey-bg)","Empty past"]];
-  items.forEach(([c,t])=>{const s=el("span");const i=el("i");i.style.background=c;s.appendChild(i);s.appendChild(document.createTextNode(t));l.appendChild(s);});
-  return l;
-}
-
 /* ============================================================
    DAY DETAIL SHEET
    ============================================================ */
@@ -1328,16 +1364,11 @@ async function openDaySheet(k){
     scroll.appendChild(act);
   }else{
     // assign options
-    const act=el("div","assign-row");
     if(!isFutureKey(k)){
-      const live=el("button","primary",null);live.textContent="Start now";
-      live.onclick=()=>{closeSheet();go("startPick");};
-      act.appendChild(live);
-      const tbd=el("button",null,"Freeform log");
-      tbd.onclick=()=>{closeSheet();startTbd(k);};
-      act.appendChild(tbd);
+      const live=el("button","start-day-btn",null);live.textContent="Start workout";
+      live.onclick=()=>{state.pickDate=k;closeSheet();go("startPick");};
+      scroll.appendChild(live);
     }
-    scroll.appendChild(act);
     if(state.workouts.length){
       scroll.appendChild(el("div","section-label",isFutureKey(k)?"Plan a workout":"Or assign a saved plan"));
       const plans=el("div","assign-row");
